@@ -44,6 +44,8 @@
                 var x = y = 0;
                 x = e.clientX - canvas.offsetLeft;
                 y = e.clientY - canvas.offsetTop;
+
+                var No ;
                 
                 if (player == 1) {
                     if (Draw("black") != 10) {
@@ -52,28 +54,40 @@
                 }
                 else if (player == 2) {
                     if (Draw("white") != 10) {
+                        No = -1
                         player = 1
                     }
                 }
             
                 function Draw(color) {    //石を描くの関数
-                    var tt;
-                    console.log(x);
-                    console.log(y);
-                    for (let h = 0; h < 8; h++) {
-                        for (let i = 0; i < 8; i++) {
-                            if (x <= 100*(i+1) && y <= 100*(h+1) ) {
-                                console.log("x=" + 100*(i+1));
-                                console.log("y=" + 100*(h+1));
+                    var No;
+                    if (color == "black") {
+                        No = 1
+                    }
+                    else{
+                        No = -1
+                    }
+                    var loop_break;
+                    for (let x_axis = 0; x_axis < 8; x_axis++) { //ｘ軸
+                        for (let y_axis = 0; y_axis < 8; y_axis++) { //ｙ軸
+
+                            if (x <= 100*(y_axis+1) && y <= 100*(x_axis+1) ) {
+
+                                if (blocks[x_axis][y_axis] !== undefined) { //複数のクリックを防止
+                                    alert("無効なクリック")
+                                    return 10
+                                    break
+                                }
                                 ctx.fillStyle = color
                                 ctx.beginPath();
-                                ctx.arc(100 * (i+1) -50 ,100*(h+1) - 50,40,0,2*Math.PI);
+                                ctx.arc(100 * (y_axis+1) -50 ,100*(x_axis+1) - 50,40,0,2*Math.PI);
                                 ctx.fill();
-                                tt = true
+                                loop_break = true
+                                blocks[x_axis][y_axis] = No
                                 break
                             }
                         }
-                        if (tt == true) {
+                        if (loop_break == true) {
                             break
                         }
                     }
