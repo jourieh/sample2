@@ -15,7 +15,7 @@
             ctx.fillRect(0 , 0, 800, 800);
             ctx.font = "90px Arial";
             var player = 1
-            var blocks = [[],[],[],[,,,-1,1,,,],[,,,1,-1,,,],[],[],[]]
+            var blocks = [[],[],[,,,-1,,,,],[,,,-1,1,,,],[,,,1,-1,,,],[],[],[]]
             
 
             for (let i = 1; i < 8; i++) {   //ボードを分割
@@ -38,12 +38,17 @@
             ctx.fill();
 
 
+            ctx.beginPath();
+            ctx.arc(250,350,40,0,2*Math.PI);
+            ctx.fill();
+
             
             canvas.addEventListener('click', onClick, false);
             function onClick (e) {  //空のマスにクリックするとマークを描かれるイベント
                 var x = y = 0;
                 x = e.clientX - canvas.offsetLeft;
                 y = e.clientY - canvas.offsetTop;
+                
                 
                 if (player == 1) {
                     if (Draw("black") != 10) {
@@ -59,6 +64,9 @@
                 function Draw(color) {    //石を描くの関数
                     var No;
                     var loop_break;
+                    var yy;
+
+                    // console.log(blocks);
 
                     if (color == "black") {
                         No = 1
@@ -70,22 +78,146 @@
                         for (let x_axis = 0; x_axis < 8; x_axis++) { //ｘ軸
                             
                             if (x <= 100*(x_axis+1) && y <= 100*(y_axis+1) ) {
+                                // console.log(x_axis,y_axis);
+                                // console.log(blocks[x_axis][y_axis]);
                                 if (blocks[x_axis][y_axis] !== undefined) { //複数のクリックを防止
                                     alert("無効なクリック")
                                     return 10
                                     break
                                 }
 
-                                ctx.fillStyle = color
-                                ctx.beginPath();
-                                ctx.arc(100 * (x_axis+1) -50 ,100*(y_axis+1) - 50,40,0,2*Math.PI);
-                                ctx.fill();
-                                loop_break = true
-                                blocks[x_axis][y_axis] = No
+                                for (let num = 2; num < 8; num++) {
+                                    if (x_axis + 1 < 8 && blocks[x_axis + 1][y_axis] == -No && x_axis + num < 8 &&blocks[x_axis + num][y_axis] == No) {
+                                        console.log(11111);
+                                        yy = 1
+                                        ctx.fillStyle = color
+                                        ctx.beginPath();
+                                        ctx.arc(100 * (x_axis+1) -50 ,100*(y_axis+1) - 50,40,0,2*Math.PI);
+                                        ctx.fill();
+                                        blocks[x_axis][y_axis] = No
+                                        loop_break = true
+                                        tt = true
+                                        replace(x_axis,y_axis,No,yy)
+                                        break
+                                    }
+                                    if (x_axis - 1 > -1 && blocks[x_axis - 1][y_axis] == -No && x_axis - num > -1 && blocks[x_axis - num][y_axis] == No) {
+                                        console.log(22222);
+                                        yy =1
+                                        ctx.fillStyle = color
+                                        ctx.beginPath();
+                                        ctx.arc(100 * (x_axis+1) -50 ,100*(y_axis+1) - 50,40,0,2*Math.PI);
+                                        ctx.fill();
+                                        blocks[x_axis][y_axis] = No
+                                        loop_break = true
+                                        tt = true
+                                        replace(x_axis,y_axis,No,yy)
+                                        break
+                                    }
+                                    if (y_axis + 1 < 8 && blocks[x_axis][y_axis + 1] == -No && y_axis + num < 8 &&blocks[x_axis][y_axis + num] == No) {
+                                        console.log(33333);
+                                        yy =2
+                                        ctx.fillStyle = color
+                                        ctx.beginPath();
+                                        ctx.arc(100 * (x_axis+1) -50 ,100*(y_axis+1) - 50,40,0,2*Math.PI);
+                                        ctx.fill();
+                                        blocks[x_axis][y_axis] = No
+                                        loop_break = true
+                                        tt = true
+                                        replace(x_axis,y_axis,No,yy)
+                                        break
+                                    }
+                                    if (y_axis - 1 > -1 && blocks[x_axis][y_axis - 1] == -No && y_axis - num > -1 && blocks[x_axis][y_axis - num] == No) {
+                                        console.log(44444);
+                                        yy = 2
+                                        ctx.fillStyle = color
+                                        ctx.beginPath();
+                                        ctx.arc(100 * (x_axis+1) -50 ,100*(y_axis+1) - 50,40,0,2*Math.PI);
+                                        ctx.fill();
+                                        blocks[x_axis][y_axis] = No
+                                        loop_break = true
+                                        tt = true
+                                        replace(x_axis,y_axis,No,yy)
+                                        break
+                                    }
+                                    if (y_axis + 1 < 8  && x_axis + 1 < 8  && blocks[x_axis + 1][y_axis + 1] == -No && y_axis + num < 8  && x_axis + num < 8  && blocks[x_axis + num][y_axis + num] == No) {   
+                                        console.log(55555);
+                                        yy =3
+                                        ctx.fillStyle = color
+                                        ctx.beginPath();
+                                        ctx.arc(100 * (x_axis+1) -50 ,100*(y_axis+1) - 50,40,0,2*Math.PI);
+                                        ctx.fill();
+                                        blocks[x_axis][y_axis] = No
+                                        loop_break = true
+                                        tt = true
+                                        replace(x_axis,y_axis,No,yy)
+                                        console.log(blocks);
+                                        break
+                                    }
+                                    if (y_axis - 1 > -1 && x_axis - 1 > -1 && blocks[x_axis - 1][y_axis - 1] == -No && y_axis - num > -1 && x_axis - num > -1 && blocks[x_axis - num][y_axis - num] == No) { 
+                                        console.log(66666);
+                                        yy =4
+                                        ctx.fillStyle = color
+                                        ctx.beginPath();
+                                        ctx.arc(100 * (x_axis+1) -50 ,100*(y_axis+1) - 50,40,0,2*Math.PI);
+                                        ctx.fill();
+                                        blocks[x_axis][y_axis] = No
+                                        loop_break = true
+                                        tt = true
+                                        replace(x_axis,y_axis,No,yy)
+                                        break
+                                    }
+                                    if (y_axis - 1 > -1  && x_axis + 1 < 8  && blocks[x_axis + 1][y_axis - 1] == -No && y_axis - num > -1  && x_axis + num < 8  && blocks[x_axis + num][y_axis - num] == No) {   
+                                        console.log(77777);
+                                        yy =5
+                                        ctx.fillStyle = color
+                                        ctx.beginPath();
+                                        ctx.arc(100 * (x_axis+1) -50 ,100*(y_axis+1) - 50,40,0,2*Math.PI);
+                                        ctx.fill();
+                                        blocks[x_axis][y_axis] = No
+                                        loop_break = true
+                                        tt = true
+                                        replace(x_axis,y_axis,No,yy)
+                                        console.log(blocks);
+                                        break
+                                    }
+                                    if (y_axis + 1 < 8 && x_axis - 1 > -1 && blocks[x_axis - 1][y_axis + 1] == -No && y_axis + num < 8 && x_axis - num > -1 && blocks[x_axis - num][y_axis + num] == No) { 
+                                        console.log(88888);
+                                        yy = 6
+                                        ctx.fillStyle = color
+                                        ctx.beginPath();
+                                        ctx.arc(100 * (x_axis+1) -50 ,100*(y_axis+1) - 50,40,0,2*Math.PI);
+                                        ctx.fill();
+                                        blocks[x_axis][y_axis] = No
+                                        loop_break = true
+                                        tt = true
+                                        replace(x_axis,y_axis,No,yy)
+                                        break
+                                    }
+                                    else{
+                                        loop_break = true
+                                        console.log(0000000);
+                                        tt = true
+                                        console.log(color);
+                                        alert("無効なクリック")
+                                        return 10
+                                        break
+                                    }
+                                }
 
-                                replace(x_axis,y_axis,No)
+                                if (tt == true) {
+                                    break
+                                }
+                                // ctx.fillStyle = color
+                                // ctx.beginPath();
+                                // ctx.arc(100 * (x_axis+1) -50 ,100*(y_axis+1) - 50,40,0,2*Math.PI);
+                                // ctx.fill();
+                                // blocks[x_axis][y_axis] = No
+                                // loop_break = true
+                                // break
 
-                                break
+                                
+                                // replace(x_axis,y_axis,No)
+
                             }
                         }
                         if (loop_break == true) {
@@ -97,9 +229,9 @@
 
             };
 
-            function replace(x_axis,y_axis,No) {
+            function replace(x_axis,y_axis,No,yy) {
                 for (let Horizontal = 0; Horizontal < 8; Horizontal++) {// 横軸の石を置き換える
-                    if (blocks[Horizontal][y_axis] != undefined) {
+                    if (blocks[Horizontal][y_axis] != undefined && yy == 1) {
                         blocks[Horizontal][y_axis] = No
                         ctx.beginPath();
                         ctx.arc(100 * (Horizontal+1) -50 ,100*(y_axis+1) - 50,40,0,2*Math.PI);
@@ -107,7 +239,7 @@
                     }
                 }
                 for (let Vertical = 0; Vertical < 8; Vertical++) {//縦の石を置き換える
-                    if (blocks[x_axis][Vertical] != undefined) {
+                    if (blocks[x_axis][Vertical] != undefined && yy == 2) {
                         blocks[x_axis][Vertical] = No
                         ctx.beginPath();
                         ctx.arc(100 * (x_axis+1) -50 ,100*(Vertical+1) - 50,40,0,2*Math.PI);
@@ -118,7 +250,7 @@
                     if (x_axis+Diagonal == 8 || y_axis+Diagonal == 8 ) {
                         break
                     }
-                    else if (blocks[x_axis+Diagonal][y_axis + Diagonal] != undefined) {
+                    else if (blocks[x_axis+Diagonal][y_axis + Diagonal] != undefined && yy == 3) {
                         blocks[x_axis+Diagonal][y_axis+Diagonal] = No
                         ctx.beginPath();
                         ctx.arc(100 * (x_axis+Diagonal+1) -50 ,100*(y_axis+Diagonal+1) - 50,40,0,2*Math.PI);
@@ -129,7 +261,7 @@
                     if (x_axis-Diagonal1 == -1 || y_axis-Diagonal1 == -1 ) {
                         break
                     }
-                    else if (blocks[x_axis - Diagonal1][y_axis - Diagonal1] != undefined) {
+                    else if (blocks[x_axis - Diagonal1][y_axis - Diagonal1] != undefined && yy == 4) {
                         blocks[x_axis-Diagonal1][y_axis-Diagonal1] = No
                         ctx.beginPath();
                         ctx.arc(100 * (x_axis-Diagonal1+1) -50 ,100*(y_axis-Diagonal1+1) - 50,40,0,2*Math.PI);
@@ -140,7 +272,7 @@
                     if (x_axis+Diagonal2 == 8 || y_axis-Diagonal2 == -1 ) {
                         break
                     }
-                    else if (blocks[x_axis + Diagonal2][y_axis - Diagonal2] != undefined) {
+                    else if (blocks[x_axis + Diagonal2][y_axis - Diagonal2] != undefined && yy == 5) {
                         blocks[x_axis+Diagonal2][y_axis-Diagonal2] = No
                         ctx.beginPath();
                         ctx.arc(100 * (x_axis+Diagonal2+1) -50 ,100*(y_axis-Diagonal2+1) - 50,40,0,2*Math.PI);
@@ -151,7 +283,7 @@
                     if (x_axis-Diagonal3 == -1 || y_axis+Diagonal3 == 8 ) {
                         break
                     }
-                    else if (blocks[x_axis - Diagonal3][y_axis + Diagonal3] != undefined) {
+                    else if (blocks[x_axis - Diagonal3][y_axis + Diagonal3] != undefined && yy == 6) {
                         blocks[x_axis-Diagonal3][y_axis+Diagonal3] = No
                         ctx.beginPath();
                         ctx.arc(100 * (x_axis-Diagonal3+1) -50 ,100*(y_axis+Diagonal3+1) - 50,40,0,2*Math.PI);
